@@ -13,5 +13,8 @@ return-items: "true"
 # Define whether you want a message when you make a transaction
 confirm-message: "true"
 
+# Set the server prefix
+prefix: "§e[§bSimpleShopUI§e]§r"
+
 # Define the configuration for the blocks/items in your shop
 shop:
