@@ -1,0 +1,44 @@
+{
+  "its_first_item": {
+    "identifierofcategoryoritemsell":  1,
+    "id": 10,
+    "meta": 0,
+    "min_count":0,
+    "max_count":64,
+    "price_for_max_count": 1000,
+    "lores": [],
+    "image_type": 1,
+    "image_link": "",
+    "custom_name": "tg"
+  },
+  "its_twee_item": {
+    "identifierofcategoryoritemsell":  1,
+    "id": 10,
+    "meta": 0,
+    "min_count": 0,
+    "max_count": 64,
+    "price_for_max_count": 1000,
+    "lores": [],
+    "image_type":  1,
+    "image_link":  "",
+    "custom_name": "tg"
+  },
+  "its_category": {
+    "identifierofcategoryoritemsell":  2,
+      "item": {},
+      "category": {},
+      "item2": {}
+  },
+  "its_3_item": {
+    "identifierofcategoryoritemsell": 1,
+    "id": 10,
+    "meta": 0,
+    "min_count": 0,
+    "max_count": 64,
+    "price_for_max_count": 1000,
+    "lores": [],
+    "image_type":  1,
+    "image_link":  "",
+    "custom_name": "tg"
+  }
+}

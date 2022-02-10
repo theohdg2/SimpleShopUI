@@ -12,6 +12,3 @@ return-items: "true"
 
 # Define whether you want a message when you make a transaction
 confirm-message: "true"
-
-# Define the configuration for the blocks/items in your shop
-shop:
