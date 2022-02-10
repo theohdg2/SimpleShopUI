@@ -70,6 +70,10 @@ class SimpleShopUI extends PluginBase{
         return $this->shop;
     }
 
+    public function getConfigLanguage(): Config{
+        return new Config($this->getDataFolder()."Language/lang_".$this->getConfig()->get("default-lang","eng").".yml",Config::YAML);
+    }
+
 
     ///////////API\FORM//////////////
 
@@ -98,6 +102,7 @@ class SimpleShopUI extends PluginBase{
                 if($this->getConfig()->get("quit-message-onenabled",false)){
                     $player->sendMessage($this->getConfig()->get("quit-message",""));
                 }
+                return;
             }
             $btnSelect = $allBtn[$btnSelect] ?? null;
             $data = $datas[$btnSelect] ?? null;
@@ -118,10 +123,10 @@ class SimpleShopUI extends PluginBase{
         //TODO: mettre les trads
         $form->setTitle("SimpleShopUI");
         foreach ($allBtn as $btn){
-            if($datas[$btn]["identifierofcategoryoritemsell"] === self::ITEM){
+            if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
-            }else {
-                $form->addButton($btn);
+            }elseif($datas[$btn]["identifierofcategoryoritemsell"] ??-1 === self::CATEGORY){
+                $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
             }
         }
 
@@ -133,7 +138,12 @@ class SimpleShopUI extends PluginBase{
 
         $allBtn = [];
         $datas = [];
-        foreach ($this->getShop()->getAll() as $name => $data){
+
+        $pathArray = [];
+        for ($i = 0; $i < count($decomponse);$i++){
+            $pathArray = $pathArray[$decomponse[$i]] ?? $this->getShop()->getAll()[$decomponse[0]];
+        }
+        foreach ($pathArray as $name => $data){
             $allBtn[] = $name;
             $datas[$name] = $data;
         }
@@ -144,8 +154,9 @@ class SimpleShopUI extends PluginBase{
                if($this->getConfig()->get("quit-message-onenabled",false)){
                    $player->sendMessage($this->getConfig()->get("quit-message",""));
                }
+               return;
            }
-            $btnSelect = $allBtn[$btnSelect] ?? null;
+            $btnSelect = $allBtn[$data] ?? null;
             $data = $datas[$btnSelect] ?? null;
             if($data === null || $btnSelect === null){
                 //TODO message
@@ -154,7 +165,7 @@ class SimpleShopUI extends PluginBase{
             if($data["identifierofcategoryoritemsell"] === self::ITEM){
                 $player->sendForm($this->getBuyForm($data));
             }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
-                $player->sendForm($this->getCategoryForm($btnSelect));
+                $player->sendForm($this->getCategoryForm($categoryPath."/".$btnSelect));
             }else{
                 //TODO trad
                 $player->sendMessage("un container non identifier à été detecté");
@@ -164,10 +175,10 @@ class SimpleShopUI extends PluginBase{
         //TODO trad
         $form->setTitle("SimpleShop ".$decomponse[array_key_last($decomponse)]);
         foreach ($allBtn as $btn){
-            if($datas[$btn]["identifierofcategoryoritemsell"] === self::ITEM){
+            if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
-            }else {
-                $form->addButton($btn);
+            }elseif($datas[$btn]["identifierofcategoryoritemsell"] ??-1 === self::CATEGORY){
+                $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
             }
         }
 
@@ -182,6 +193,7 @@ class SimpleShopUI extends PluginBase{
                if($this->getConfig()->get("quit-message-onenabled",false)){
                    $player->sendMessage($this->getConfig()->get("quit-message",""));
                }
+               return;
            }
            $item = ItemFactory::getInstance()->get($data["id"],$data["meta"],$option[1]);
            if($item instanceof Item){
