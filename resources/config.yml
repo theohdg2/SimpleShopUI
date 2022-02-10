@@ -1,0 +1,17 @@
+# Define the worlds where the shop cannot be used
+worlds:
+  - bannedWorld
+  - test
+
+# Define if the player must be in survival gamemode to use the shop
+survival: "false"
+
+# Define whether you want a back button when you have made a mistake with an item
+return-category: "true"
+return-items: "true"
+
+# Define whether you want a message when you make a transaction
+confirm-message: "true"
+
+# Define the configuration for the blocks/items in your shop
+shop:
