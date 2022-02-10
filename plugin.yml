@@ -4,4 +4,4 @@ authors:
   - theohdg2
   - Achedon12
 api: 4.0.0
-main: SimpleShopUI\theohdg2\SimpleShopUI
+main: theohdg2\SimpleShopUI\SimpleShopUI
