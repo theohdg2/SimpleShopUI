@@ -8,6 +8,8 @@ survival: "You must be in survival to access the shop"
 error-player: "Please use the in-game command"
 out-of-storage: "You have no more room in your inventory"
 error-container: "An unidentified container was detected"
+error: "An error has occurred"
+error-item: "{item} {meta} is not an item"
 # Form Message
 form-close: "Looking forward to seeing you in the shop"
 form-confirm-buy: "Are you sure you want to buy this item?"

@@ -1,3 +1,6 @@
+# Set the default language for your plugin ( eng | esp | fr | it )
+default-lang: "eng"
+
 # Define the worlds where the shop cannot be used
 worlds:
   - bannedWorld

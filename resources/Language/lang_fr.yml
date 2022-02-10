@@ -8,6 +8,8 @@ survival: "Vous devez être en survie pour accéder au shop"
 error-player: "Veuillez utiliser la commande en jeu"
 out-of-storage: "Vous n'avez plus de place dans votre inventaire"
 error-container: "Un container non identifié a été detecté"
+error: "Une erreur est survenue"
+error-item: "{item} {meta} n'est pas un item"
 # Form Message
 form-close: "Au plaisir de vous revoir dans le shop"
 form-confirm-buy: "Êtes-vous sur de vouloir acheter cet article ?"
