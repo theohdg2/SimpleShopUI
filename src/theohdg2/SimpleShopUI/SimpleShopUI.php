@@ -70,6 +70,10 @@ class SimpleShopUI extends PluginBase{
         return $this->shop;
     }
 
+    public function getConfigLanguage(): Config{
+        return new Config($this->getDataFolder()."Language/lang_".$this->getConfig()->get("default-lang","eng").".yml",Config::YAML);
+    }
+
 
     ///////////API\FORM//////////////
 
