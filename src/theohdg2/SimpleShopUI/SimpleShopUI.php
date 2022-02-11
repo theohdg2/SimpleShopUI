@@ -56,7 +56,6 @@ class SimpleShopUI extends PluginBase{
         //register command
         $this->getServer()->getCommandMap()->register("simpleshopui",new ShopCommand());
 
-        var_dump($this->getAllCategory($this->getShop()->getAll()));
 
     }
 
@@ -127,6 +126,9 @@ class SimpleShopUI extends PluginBase{
                 case 5:
                     $player->sendForm($this->getDeleteItemForm());
                     break;
+                case 6:
+                       $player->sendForm($this->getAccueilPlayerForm());
+                    break;
             }
         });
         //TODO trad
@@ -140,37 +142,65 @@ class SimpleShopUI extends PluginBase{
         $form->addButton("Créer une item");
         $form->addButton("Editer une item");
         $form->addButton("Supprimé une item");
+
+        $form->addButton("voir le rendu");
         return $form;
     }
     /////////CATEGORY////////////////
     public function getCreateCategoryForm(): Form{
-        $form = new CustomForm(function(Player $player,array $data = null){
+        $allc = $this->getAllCategory($this->getShop()->getAll(),null,true,"->");
+        $form = new CustomForm(function(Player $player,array $data = null) use ($allc){
             if($data === null){
                 if($this->getConfig()->get("quit-message-admin-onenabled",false)){
                     $player->sendMessage($this->getConfig()->get("quit-admin-message",""));
                 }
                 return;
             }
-            
+            $apres = str_replace("->",".",$allc[$data[0]]);
+            $name = $data[1];
+            $imgToogle = $data[2]??false;
+            $imgType = $data[3] === false ? 0 : 1;
+            $imgPath = $data[4] ?? "";
+            $this->getShop()->set($apres.$name,
+            [
+                "img" => [
+                    "type" => $imgType,
+                    "path" => $imgPath
+                ]
+            ]);
+            $this->getShop()->save();
         });
         //TODO trad
         $form->setTitle("Admin shop create category");
-        $form->addDropdown("mettre apres ",$this->getAllCategory($this->getShop()->getAll()));
+        $form->addDropdown("mettre apres ",$allc);
         $form->addInput("nom de la category");
         $form->addToggle("ajouter une image");
-        $form->addToggle("si celui dessus est coucher l'image va etre un texture/url");
-        $form->addInput("texture/url complet (pour la texture: textures/items/apple)");
+        $form->addToggle("si celui dessus est cocher l'image va etre un texture/url");
+        $form->addInput("texture/url complet (pour la texture: textures/items/apple) laissez vide si vous ne voulez pas d'image");
         return $form;
     }
 
-    public function getAllCategory(array $array){
+    public function getAllCategory(array $array,string $path = null,bool $indexIsNumber = false,string $separator = "."){
         $return = [];
         foreach ($array as $name => $data){
             if(($data["identifierofcategoryoritemsell"]??-1) === self::CATEGORY){
-                $return[$name] = $name;
+                if($path === null){
+                    $path = $name;
+                }else{
+                    $path = $path.$separator.$name;
+                }
+                if($indexIsNumber === true){
+                    $return[] = $path;
+                }else{
+                    $return[$name] = $path;
+                }
                 unset($data["identifierofcategoryoritemsell"]);
-                foreach ($this->getAllCategory($data) as $returns){
-                    $return[$returns] = $returns;
+                foreach ($this->getAllCategory($data,$path) as $name => $returns){
+                    if($indexIsNumber === true){
+                        $return[] = $returns;
+                    }else{
+                        $return[$name] = $returns;
+                    }
                 }
             }
         }
@@ -222,7 +252,7 @@ class SimpleShopUI extends PluginBase{
             if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
             }elseif($datas[$btn]["identifierofcategoryoritemsell"] ??-1 === self::CATEGORY){
-                $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
+                $form->addButton($btn,$datas[$btn]["img"]["type"] ?? -1,$datas[$btn]["img"]["path"] ?? "");
             }
         }
 
@@ -240,40 +270,37 @@ class SimpleShopUI extends PluginBase{
             $pathArray = $pathArray[$decomponse[$i]] ?? $this->getShop()->getAll()[$decomponse[0]];
         }
         foreach ($pathArray as $name => $data){
+            if($name === "identifierofcategoryoritemsell" || !isset($data["identifierofcategoryoritemsell"])) continue;
             $allBtn[] = $name;
             $datas[$name] = $data;
         }
 
 
-        $form = new SimpleForm(function(Player $player,int $data = null) use ($categoryPath,$decomponse,$allBtn,$datas){
-           if($data === null){
+        $form = new SimpleForm(function(Player $player,int $name = null) use ($categoryPath,$decomponse,$allBtn,$datas){
+           if($name === null){
                if($this->getConfig()->get("quit-message-onenabled",false)){
                    $player->sendMessage($this->getConfig()->get("quit-message",""));
                }
                return;
            }
-            $btnSelect = $allBtn[$data] ?? null;
-            $data = $datas[$btnSelect] ?? null;
-            if($data === null || $btnSelect === null){
+            $data = $datas[$allBtn[$name]] ?? null;
+            if($data === null){
                 //TODO message
                 $player->sendMessage("une erreur est survenue");
             }
-            if($data["identifierofcategoryoritemsell"] === self::ITEM){
+            if(($data["identifierofcategoryoritemsell"]??-1) === self::ITEM){
                 $player->sendForm($this->getBuyForm($data));
-            }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
-                $player->sendForm($this->getCategoryForm($categoryPath."/".$btnSelect));
-            }else{
-                //TODO trad
-                $player->sendMessage("un container non identifier à été detecté");
+            }elseif(($data["identifierofcategoryoritemsell"]??-1) === self::CATEGORY){
+                $player->sendForm($this->getCategoryForm($categoryPath."/".$allBtn[$name]));
             }
 
         });
         //TODO trad
         $form->setTitle("SimpleShop ".$decomponse[array_key_last($decomponse)]);
-        foreach ($allBtn as $btn){
-            if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
+        foreach ($allBtn as $name => $btn){
+            if(($datas[$btn]["identifierofcategoryoritemsell"] ?? -1) === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
-            }elseif($datas[$btn]["identifierofcategoryoritemsell"] ??-1 === self::CATEGORY){
+            }elseif(($datas[$btn]["identifierofcategoryoritemsell"] ??-1) === self::CATEGORY){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
             }
         }
