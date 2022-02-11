@@ -307,5 +307,5 @@ class SimpleShopUI extends PluginBase{
     }
 
     //TODO: create a verif for world player (ban world to execute the command)
-    
+
 }

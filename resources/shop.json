@@ -9,7 +9,7 @@
     "lores": [],
     "image_type": -1,
     "image_link": "",
-    "custom_name": "tg"
+    "custom_name": "test1"
   },
   "its_twee_item": {
     "identifierofcategoryoritemsell":  1,
@@ -21,7 +21,7 @@
     "lores": [],
     "image_type":  -1,
     "image_link":  "",
-    "custom_name": "tg"
+    "custom_name": "test2"
   },
   "its_category": {
     "identifierofcategoryoritemsell":  2,
@@ -45,6 +45,6 @@
     "lores": [],
     "image_type":  -1,
     "image_link":  "",
-    "custom_name": "tg"
+    "custom_name": "test3"
   }
 }
