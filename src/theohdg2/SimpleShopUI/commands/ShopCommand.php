@@ -18,7 +18,7 @@ class ShopCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         if($sender instanceof Player){
-            $sender->sendForm(SimpleShopUI::getInstance()->getAccueilPlayerForm());
+            $sender->sendForm(SimpleShopUI::getInstance()->getAccueilAdminForm());
         }else{
             $sender->sendMessage("execute this command in game");
         }
