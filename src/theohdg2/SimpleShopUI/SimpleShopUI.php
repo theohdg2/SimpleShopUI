@@ -26,8 +26,7 @@ class SimpleShopUI extends PluginBase{
     private Plugin $moneyAPI;
     private string $prefix;
 
-    protected function onEnable(): void
-    {
+    protected function onEnable(): void{
         if(($api = Server::getInstance()->getPluginManager()->getPlugin("SimpleMoneyAPI")) instanceof Plugin){
             $this->moneyAPI = $api;
         }else{
@@ -65,32 +64,28 @@ class SimpleShopUI extends PluginBase{
     /**
      * @return SimpleShopUI
      */
-    public static function getInstance(): SimpleShopUI
-    {
+    public static function getInstance(): SimpleShopUI{
         return self::$instance;
     }
 
     /**
      * @return Config
      */
-    public function getConfig(): Config
-    {
+    public function getConfig(): Config{
         return $this->config;
     }
 
     /**
      * @return Config
      */
-    public function getShop(): Config
-    {
+    public function getShop(): Config{
         return $this->shop;
     }
 
     /**
      * @return Plugin
      */
-    public function getMoneyAPI(): Plugin
-    {
+    public function getMoneyAPI(): Plugin{
         return $this->moneyAPI;
     }
 
