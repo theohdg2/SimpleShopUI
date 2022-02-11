@@ -31,7 +31,7 @@ class SimpleShopUI extends PluginBase{
             $this->moneyAPI = $api;
         }else{
             //TODO trad ans link
-            $this->getServer()->getLogger()->alert("please install dependence: SimpleMoneyAPI (here link)");
+            $this->getServer()->getLogger()->alert($this->getConfigLanguage()->get("missing-pluging"));
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
 
@@ -103,8 +103,8 @@ class SimpleShopUI extends PluginBase{
     public function getAccueilAdminForm():Form{
         $form = new SimpleForm(function(Player $player,int $data = null){
             if($data === null){
-                if($this->getConfig()->get("quit-message-admin-onenabled",false)){
-                    $player->sendMessage($this->getConfig()->get("quit-admin-message",""));
+                if($this->getConfig()->get("confirm-message",false)){
+                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin",""));
                 }
                 return;
             }
@@ -129,37 +129,35 @@ class SimpleShopUI extends PluginBase{
                     break;
             }
         });
-        //TODO trad
-
-        $form->setTitle("Admin shop configurateur");
+        $form->setTitle($this->getConfigLanguage()->getNested("form-admin.home.title"));
         //////SECTION CATEGORY/////////////////////////
-        $form->addButton("Créer une catégory");
-        $form->addButton("Editer une catégory");
-        $form->addButton("Supprimé une category");
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.category.create"));
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.category.edit"));
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.category.delete"));
         //////SECTION ITEM/////////////////////////
-        $form->addButton("Créer une item");
-        $form->addButton("Editer une item");
-        $form->addButton("Supprimé une item");
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.item.create"));
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.item.edit"));
+        $form->addButton($this->getConfigLanguage()->getNested("form-admin.home.item.delete"));
         return $form;
     }
     /////////CATEGORY////////////////
     public function getCreateCategoryForm(): Form{
         $form = new CustomForm(function(Player $player,array $data = null){
             if($data === null){
-                if($this->getConfig()->get("quit-message-admin-onenabled",false)){
-                    $player->sendMessage($this->getConfig()->get("quit-admin-message",""));
+                if($this->getConfig()->get("confirm-message",false)){
+                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin",""));
                 }
                 return;
             }
             
         });
         //TODO trad
-        $form->setTitle("Admin shop create category");
-        $form->addDropdown("mettre apres ",$this->getAllCategory($this->getShop()->getAll()));
-        $form->addInput("nom de la category");
-        $form->addToggle("ajouter une image");
-        $form->addToggle("si celui dessus est coucher l'image va etre un texture/url");
-        $form->addInput("texture/url complet (pour la texture: textures/items/apple)");
+        $form->setTitle($this->getConfigLanguage()->getNested("form-admin.create.title"));
+        $form->addDropdown($this->getConfigLanguage()->getNested("form-admin.create.after"),$this->getAllCategory($this->getShop()->getAll()));
+        $form->addInput($this->getConfigLanguage()->getNested("form-admin.create.categoryName"));
+        $form->addToggle($this->getConfigLanguage()->getNested("form-admin.create.image"));
+        $form->addToggle($this->getConfigLanguage()->getNested("form-admin.create.choice"));
+        $form->addInput($this->getConfigLanguage()->getNested("form-admin.create.url"));
         return $form;
     }
 
@@ -195,29 +193,25 @@ class SimpleShopUI extends PluginBase{
 
         $form = new SimpleForm(function(Player $player,int $btnSelect = null) use ($allBtn,$datas){
             if($btnSelect === null){
-                if($this->getConfig()->get("quit-message-onenabled",false)){
-                    $player->sendMessage($this->getConfig()->get("quit-message",""));
+                if($this->getConfig()->get("confirm-message",false)){
+                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
                 }
                 return;
             }
             $btnSelect = $allBtn[$btnSelect] ?? null;
             $data = $datas[$btnSelect] ?? null;
             if($data === null || $btnSelect === null){
-                //TODO message
-                $player->sendMessage("une erreur est survenue");
+                $player->sendMessage($this->getConfigLanguage()->get("error"));
             }
             if($data["identifierofcategoryoritemsell"] === self::ITEM){
                 $player->sendForm($this->getBuyForm($data));
             }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
                 $player->sendForm($this->getCategoryForm($btnSelect));
             }else{
-                //TODO trad
-                $player->sendMessage("un container non identifier à été detecté");
+                $player->sendMessage($this->getConfigLanguage()->get("error-container"));
             }
-
         });
-        //TODO: mettre les trads
-        $form->setTitle("SimpleShopUI");
+        $form->setTitle($this->getConfigLanguage()->get("form-name"));
         foreach ($allBtn as $btn){
             if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
@@ -247,29 +241,26 @@ class SimpleShopUI extends PluginBase{
 
         $form = new SimpleForm(function(Player $player,int $data = null) use ($categoryPath,$decomponse,$allBtn,$datas){
            if($data === null){
-               if($this->getConfig()->get("quit-message-onenabled",false)){
-                   $player->sendMessage($this->getConfig()->get("quit-message",""));
+               if($this->getConfig()->get("confirm-message",false)){
+                   $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
                }
                return;
            }
             $btnSelect = $allBtn[$data] ?? null;
             $data = $datas[$btnSelect] ?? null;
             if($data === null || $btnSelect === null){
-                //TODO message
-                $player->sendMessage("une erreur est survenue");
+                $player->sendMessage($this->getConfigLanguage()->get("error"));
             }
             if($data["identifierofcategoryoritemsell"] === self::ITEM){
                 $player->sendForm($this->getBuyForm($data));
             }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
                 $player->sendForm($this->getCategoryForm($categoryPath."/".$btnSelect));
             }else{
-                //TODO trad
-                $player->sendMessage("un container non identifier à été detecté");
+                $player->sendMessage($this->getConfigLanguage()->get("error-container"));
             }
 
         });
-        //TODO trad
-        $form->setTitle("SimpleShop ".$decomponse[array_key_last($decomponse)]);
+        $form->setTitle($this->getConfigLanguage()->get("form-name").$decomponse[array_key_last($decomponse)]);
         foreach ($allBtn as $btn){
             if($datas[$btn]["identifierofcategoryoritemsell"] ?? -1 === self::ITEM){
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
@@ -277,17 +268,14 @@ class SimpleShopUI extends PluginBase{
                 $form->addButton($btn,$datas[$btn]["image_type"] ?? -1,$datas[$btn]["image_link"] ?? "");
             }
         }
-
-
         return $form;
     }
-
 
     public function getBuyForm(array $data): Form{
         $form = new CustomForm(function (Player $player,array $option = null) use ($data){
            if($option === null){
-               if($this->getConfig()->get("quit-message-onenabled",false)){
-                   $player->sendMessage($this->getConfig()->get("quit-message",""));
+               if($this->getConfig()->get("confirm-message",false)){
+                   $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
                }
                return;
            }
@@ -298,28 +286,23 @@ class SimpleShopUI extends PluginBase{
                if($player->getInventory()->canAddItem($item)){
                    if($this->getMoneyAPI()->reduceMoney($player->getName(),$data["price_for_min_count"]??1)){
                    $player->getInventory()->addItem($item);
-                   //TODO trad
-                       $player->sendMessage("vous venez d'acheter ".$item->getCustomName()??$item->getName()."x".$option[1]);
+                       $player->sendMessage(str_replace(["{item}","{count}"],[$item->getCustomName()??$item->getName(),$option[1]],$this->getConfigLanguage()->get("confirm-buy")));
                    }else{
-                       //TODO trad
-                       $player->sendMessage("vous n'avez pas assez de money");
+                       $player->sendMessage($this->getConfigLanguage()->get("error-buy"));
                    }
                }else{
-                   //TODO trad
-                   $player->sendMessage("vous n'avez pas assez de place dans votre inventaire");
+                   $player->sendMessage($this->getConfigLanguage()->get("out-of-storage"));
                }
            }else{
-               //TODO trad
                $player->sendMessage($data['id'].":".$data['meta'].". n'est pas un item");
+               $player->sendMessage(str_replace(["{item}","{meta}"],[$data['id'],$data['meta']],$this->getConfigLanguage()->get("error-item")));
            }
-
         });
-        //TODO trad
-        $form->setTitle("Acheter ".$data["custom_name"] ?? "cette item");
+        $form->setTitle(str_replace("{item}",$data["custom_name"],$this->getConfigLanguage()->get("form-confirm-buy2")) ?? $this->getConfigLanguage()->get("form-confirm-buy"));
 
         $form->addLabel($data["price_for_min_count"]." pour ".$data["max_count"]);
-        $form->addSlider("nombre",$data["min_count"],$data["max_count"],1);
-
+        $form->addLabel(str_replace(["{count}","{price}"],[$data["price_for_min_count"],$data["max_count"]],$this->getConfigLanguage()->get("form-buy-label")));
+        $form->addSlider($this->getConfigLanguage()->get("form-number"),$data["min_count"],$data["max_count"],1);
         return $form;
     }
 

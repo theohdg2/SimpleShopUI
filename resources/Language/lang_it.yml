@@ -9,7 +9,7 @@ error-player: "Si prega di utilizzare l'ordine di gioco"
 out-of-storage: "Non hai più spazio nel tuo inventario"
 error-container: "È stato rilevato un contenitore non identificato"
 error: "Si è verificato un errore"
-error-item: "{item} {meta} non è un elemento"
+error-item: "{item}:{meta} non è un elemento"
 # Form Message
 form-close: "Non vedo l'ora di vederti nel negozio"
 form-confirm-buy: "Sei sicuro di voler acquistare questo articolo?"
