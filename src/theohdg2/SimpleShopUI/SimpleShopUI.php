@@ -31,7 +31,6 @@ class SimpleShopUI extends PluginBase{
         if(($api = Server::getInstance()->getPluginManager()->getPlugin("SimpleMoneyAPI")) instanceof Plugin){
             $this->moneyAPI = $api;
         }else{
-            //TODO trad ans link
             $this->getServer()->getLogger()->alert($this->getConfigLanguage()->get("missing-pluging"));
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
@@ -154,7 +153,6 @@ class SimpleShopUI extends PluginBase{
             }
             
         });
-        //TODO trad
         $form->setTitle($this->getConfigLanguage()->getNested("form-admin.create.title"));
         $form->addDropdown($this->getConfigLanguage()->getNested("form-admin.create.after"),$this->getAllCategory($this->getShop()->getAll()));
         $form->addInput($this->getConfigLanguage()->getNested("form-admin.create.categoryName"));
