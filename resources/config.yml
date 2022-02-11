@@ -16,4 +16,4 @@ return-category: "true"
 confirm-message: "true"
 
 # Set the server prefix
-prefix: "§e[§bSimpleShopUI§e]§r"
+prefix: "§e[§bSimpleShopUI§e]§r "

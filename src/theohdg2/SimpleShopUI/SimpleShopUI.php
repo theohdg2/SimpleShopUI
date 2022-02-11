@@ -24,6 +24,7 @@ class SimpleShopUI extends PluginBase{
     private Config $config;
     private Config $shop;
     private Plugin $moneyAPI;
+    private string $prefix;
 
     protected function onEnable(): void
     {
@@ -58,6 +59,8 @@ class SimpleShopUI extends PluginBase{
 
         var_dump($this->getAllCategory($this->getShop()->getAll()));
 
+        //Get SimpleShopUI Prefix
+        $this->prefix = $this->getConfig()->get("prefix");
     }
 
     /**
@@ -104,7 +107,7 @@ class SimpleShopUI extends PluginBase{
         $form = new SimpleForm(function(Player $player,int $data = null){
             if($data === null){
                 if($this->getConfig()->get("confirm-message",false)){
-                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin",""));
+                    $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("form-close-admin",""));
                 }
                 return;
             }
@@ -145,7 +148,7 @@ class SimpleShopUI extends PluginBase{
         $form = new CustomForm(function(Player $player,array $data = null){
             if($data === null){
                 if($this->getConfig()->get("confirm-message",false)){
-                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin",""));
+                    $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("form-close-admin",""));
                 }
                 return;
             }
@@ -194,21 +197,21 @@ class SimpleShopUI extends PluginBase{
         $form = new SimpleForm(function(Player $player,int $btnSelect = null) use ($allBtn,$datas){
             if($btnSelect === null){
                 if($this->getConfig()->get("confirm-message",false)){
-                    $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
+                    $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("form-close-admin"));
                 }
                 return;
             }
             $btnSelect = $allBtn[$btnSelect] ?? null;
             $data = $datas[$btnSelect] ?? null;
             if($data === null || $btnSelect === null){
-                $player->sendMessage($this->getConfigLanguage()->get("error"));
+                $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("error"));
             }
             if($data["identifierofcategoryoritemsell"] === self::ITEM){
                 $player->sendForm($this->getBuyForm($data));
             }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
                 $player->sendForm($this->getCategoryForm($btnSelect));
             }else{
-                $player->sendMessage($this->getConfigLanguage()->get("error-container"));
+                $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("error-container"));
             }
         });
         $form->setTitle($this->getConfigLanguage()->get("form-name"));
@@ -242,7 +245,7 @@ class SimpleShopUI extends PluginBase{
         $form = new SimpleForm(function(Player $player,int $data = null) use ($categoryPath,$decomponse,$allBtn,$datas){
            if($data === null){
                if($this->getConfig()->get("confirm-message",false)){
-                   $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
+                   $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("form-close-admin"));
                }
                return;
            }
@@ -256,7 +259,7 @@ class SimpleShopUI extends PluginBase{
             }elseif($data["identifierofcategoryoritemsell"] === self::CATEGORY){
                 $player->sendForm($this->getCategoryForm($categoryPath."/".$btnSelect));
             }else{
-                $player->sendMessage($this->getConfigLanguage()->get("error-container"));
+                $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("error-container"));
             }
 
         });
@@ -275,7 +278,7 @@ class SimpleShopUI extends PluginBase{
         $form = new CustomForm(function (Player $player,array $option = null) use ($data){
            if($option === null){
                if($this->getConfig()->get("confirm-message",false)){
-                   $player->sendMessage($this->getConfigLanguage()->get("form-close-admin"));
+                   $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("form-close-admin"));
                }
                return;
            }
@@ -286,26 +289,23 @@ class SimpleShopUI extends PluginBase{
                if($player->getInventory()->canAddItem($item)){
                    if($this->getMoneyAPI()->reduceMoney($player->getName(),$data["price_for_min_count"]??1)){
                    $player->getInventory()->addItem($item);
-                       $player->sendMessage(str_replace(["{item}","{count}"],[$item->getCustomName()??$item->getName(),$option[1]],$this->getConfigLanguage()->get("confirm-buy")));
+                       $player->sendMessage($this->prefix.str_replace(["{item}","{count}"],[$item->getCustomName()??$item->getName(),$option[1]],$this->getConfigLanguage()->get("confirm-buy")));
                    }else{
-                       $player->sendMessage($this->getConfigLanguage()->get("error-buy"));
+                       $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("error-buy"));
                    }
                }else{
-                   $player->sendMessage($this->getConfigLanguage()->get("out-of-storage"));
+                   $player->sendMessage($this->prefix.$this->getConfigLanguage()->get("out-of-storage"));
                }
            }else{
-               $player->sendMessage($data['id'].":".$data['meta'].". n'est pas un item");
-               $player->sendMessage(str_replace(["{item}","{meta}"],[$data['id'],$data['meta']],$this->getConfigLanguage()->get("error-item")));
+               $player->sendMessage($this->prefix.str_replace(["{item}","{meta}"],[$data['id'],$data['meta']],$this->getConfigLanguage()->get("error-item")));
            }
         });
         $form->setTitle(str_replace("{item}",$data["custom_name"],$this->getConfigLanguage()->get("form-confirm-buy2")) ?? $this->getConfigLanguage()->get("form-confirm-buy"));
-
-        $form->addLabel($data["price_for_min_count"]." pour ".$data["max_count"]);
         $form->addLabel(str_replace(["{count}","{price}"],[$data["price_for_min_count"],$data["max_count"]],$this->getConfigLanguage()->get("form-buy-label")));
         $form->addSlider($this->getConfigLanguage()->get("form-number"),$data["min_count"],$data["max_count"],1);
         return $form;
     }
 
-
-
+    //TODO: create a verif for world player (ban world to execute the command)
+    
 }

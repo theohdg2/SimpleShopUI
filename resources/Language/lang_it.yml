@@ -1,8 +1,8 @@
 language: "it"
 confirm-buy: "Hai comprato {count} {item} per {sum}"
 confirm-sell: "Hai venduto {count} {item} per {sum}"
-error-buy: "Non puoi comprare {count} {item}, non hai abbastanza soldi"
-error-sell: "Non puoi vendere {count} {item}, non hai abbastanza oggetti"
+error-buy: "Non hai abbastanza soldi"
+error-sell: "Non hai abbastanza articoli"
 error-world: "{world} è un mondo in cui non si può usare il negozio"
 survival: "Devi essere in sopravvivenza per accedere al negozio"
 error-player: "Si prega di utilizzare l'ordine di gioco"
@@ -10,12 +10,38 @@ out-of-storage: "Non hai più spazio nel tuo inventario"
 error-container: "È stato rilevato un contenitore non identificato"
 error: "Si è verificato un errore"
 error-item: "{item}:{meta} non è un elemento"
-# Form Message
+# Form Message Player
 form-close: "Non vedo l'ora di vederti nel negozio"
 form-confirm-buy: "Sei sicuro di voler acquistare questo articolo?"
+form-confirm-buy2: "Compra {item}"
+form-buy-label: "Compra {item} per {price}"
+form-number: "Numero:"
 form-yes: "§aSì"
 form-no: "§4No"
 form-cancel-buy: "Hai cancellato la transazione"
 form-informations-buy: "Quanti articoli di {item} vuoi comprare?"
 form-informations-sell: "Quanti articoli di {item} vuoi vendere?"
 form-return-button: "§cIndietro"
+form-name: "SimpleShopUI"
+# Form Message Admin
+form-close-admin: "Hai appena lasciato l'adminShop"
+form-admin:
+  home:
+    title: "Configurazione di AdminShop"
+    category:
+      create: "Creare una categoria"
+      delete: "Cancellare una categoria"
+      edit: "Modifica una categoria"
+    item:
+      create: "Creare un elemento"
+      delete: "Cancellare un elemento"
+      edit: "Modifica di un elemento"
+  create:
+    title: "AdminShop Crea categoria"
+    after: "Mettere dopo"
+    categoryName: "Nome della categoria"
+    image: "Aggiungere un'immagine"
+    choice: "Texture/Url"
+    url: "Texture/Url completo (per la texture: textures/items/apple)"
+# System Message
+missing-pluging: "si prega di installare la dipendenza: SimpleMoneyAPI (https://github.com/theohdg2/SimpleMoneyPI)"

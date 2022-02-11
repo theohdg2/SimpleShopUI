@@ -1,21 +1,47 @@
-language: "eng"
-confirm-buy: "You have purchased {count} {item} for {sum}"
+language: "en"
+confirm-buy: "You have bought {count} {item} for {sum}"
 confirm-sell: "You have sold {count} {item} for {sum}"
-error-buy: "You can't buy {count} {item}, you don't have enough money"
-error-sell: "You cannot sell {count} {item}, you don't have enough material"
+error-buy: "You don't have enough money"
+error-sell: "You don't have enough items"
 error-world: "{world} is a world where you can't use the shop"
-survival: "You must be in survival to access the shop"
-error-player: "Please use the in-game command"
-out-of-storage: "You have no more room in your inventory"
-error-container: "An unidentified container was detected"
+survival: "You need to be in survival to access the shop"
+error-player: "Please use the in-game control".
+out-of-storage: "You have no more space in your inventory"
+error-container: "An unidentified container has been detected"
 error: "An error has occurred"
 error-item: "{item}:{meta} is not an item"
-# Form Message
-form-close: "Looking forward to seeing you in the shop"
+# Form Message Player
+form-close: "I look forward to seeing you in the shop".
 form-confirm-buy: "Are you sure you want to buy this item?"
+form-confirm-buy2: "Buy {item}"
+form-buy-label: "Buy {count} for {price}"
+form-number: "Number:"
 form-yes: "§aYes"
 form-no: "§4No"
 form-cancel-buy: "You have cancelled the transaction"
 form-informations-buy: "How many items of {item} do you want to buy?"
 form-informations-sell: "How many items of {item} do you want to sell?"
-form-return-button: "§cBack"
+form-return-button: "§cReturn"
+form-name: "SimpleShopUI"
+# Form Message Admin
+form-close-admin: "You have just left the adminShop"
+form-admin:
+  home:
+    title: "AdminShop Configuration"
+    category:
+      create: "Create a category"
+      delete: "Delete a category"
+      edit: "Edit a category"
+    item:
+      create: "Create an item"
+      delete: "Delete an item"
+      edit: "Edit an item"
+  create:
+    title: "AdminShop Create Category"
+    after: "Put after"
+    categoryName: "Category Name"
+    image: "Add an image"
+    choice: "Texture/Url"
+    url: "Texture/Url complete (for texture: textures/items/apple)"
+# System Message
+missing-pluging: "please install dependence: SimpleMoneyAPI (https://github.com/theohdg2/SimpleMoneyPI)"

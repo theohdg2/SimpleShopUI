@@ -1,21 +1,47 @@
 language: "esp"
-confirm-buy: "¿Cuántos artículos de {item} quiere vender?"
+confirm-buy: "Has comprado {count} {item} por {sum}"
 confirm-sell: "Has vendido {count} {item} por {sum}"
-error-buy: "No puedes comprar {count} {item}, no tienes suficiente dinero"
-error-sell: "No puedes vender {count} {item}, no tienes suficientes artículos"
+error-buy: "No tienes suficiente dinero"
+error-sell: "No tienes suficientes artículos"
 error-world: "{world} es un mundo donde no se puede usar la tienda"
 survival: "Debes estar en supervivencia para acceder a la tienda"
 error-player: "Por favor, utilice el orden del juego"
 out-of-storage: "No tienes más espacio en tu inventario"
 error-container: "Se detectó un contenedor no identificado"
 error: "Se ha producido un error"
-error-item: "{item}:{meta} no es un elemento"
-# Form Message
+error-item: "{item}:{meta} no es un artículo"
+# Form Message Player
 form-close: "Espero verle en la tienda"
 form-confirm-buy: "¿Está seguro de que quiere comprar este artículo?"
-form-yes: "§aSI"
+form-confirm-buy2: "Comprar {artículo}"
+form-buy-label: "Comprar {count} por {price}"
+form-number: "Número:"
+form-yes: "§aSi"
 form-no: "§4No"
 form-cancel-buy: "Ha cancelado la transacción"
 form-informations-buy: "¿Cuántos artículos de {item} quiere comprar?"
 form-informations-sell: "¿Cuántos artículos de {item} quiere vender?"
 form-return-button: "§cVolver"
+form-name: "SimpleShopUI"
+# Form Message Admin
+form-close-admin: "Acaba de salir de la adminShop"
+form-admin:
+  home:
+    title: "Configuración de AdminShop"
+    category:
+      create: "Crear una categoría"
+      delete: "Eliminar una categoría"
+      edit: "Editar una categoría"
+    item:
+      create: "Crear un artículo"
+      delete: "Borrar un elemento"
+      edit: "Editar un artículo"
+  create:
+    title: "AdminShop Crear una categoríae"
+    after: "Poner después"
+    categoryName: "Nombre de la categoría"
+    image: "Añadir una imagen"
+    choice: "Textura/Url"
+    url: "Textura/Url completa (para la textura: textures/items/apple)"
+# System Message
+missing-pluging: "por favor, instale la dependencia: SimpleMoneyAPI (https://github.com/theohdg2/SimpleMoneyPI)"
