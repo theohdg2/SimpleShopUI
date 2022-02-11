@@ -5,9 +5,9 @@
     "meta": 0,
     "min_count":0,
     "max_count":64,
-    "price_for_min_count": 1000,
+    "price_for_max_count": 1000,
     "lores": [],
-    "image_type": 1,
+    "image_type": -1,
     "image_link": "",
     "custom_name": "tg"
   },
@@ -17,17 +17,23 @@
     "meta": 0,
     "min_count": 0,
     "max_count": 64,
-    "price_for_min_count": 1000,
+    "price_for_max_count": 1000,
     "lores": [],
-    "image_type":  1,
+    "image_type":  -1,
     "image_link":  "",
     "custom_name": "tg"
   },
   "its_category": {
     "identifierofcategoryoritemsell":  2,
-      "item": {},
-      "category": {},
-      "item2": {}
+    "item": {},
+    "category": {
+      "identifierofcategoryoritemsell": 2,
+      "new_category": {
+        "identifierofcategoryoritemsell": 2,
+        "item": {}
+      }
+    },
+    "item2": {}
   },
   "its_3_item": {
     "identifierofcategoryoritemsell": 1,
@@ -35,9 +41,9 @@
     "meta": 0,
     "min_count": 0,
     "max_count": 64,
-    "price_for_min_count": 1000,
+    "price_for_max_count": 1000,
     "lores": [],
-    "image_type":  1,
+    "image_type":  -1,
     "image_link":  "",
     "custom_name": "tg"
   }

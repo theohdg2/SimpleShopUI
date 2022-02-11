@@ -56,6 +56,8 @@ class SimpleShopUI extends PluginBase{
         //register command
         $this->getServer()->getCommandMap()->register("simpleshopui",new ShopCommand());
 
+        var_dump($this->getAllCategory($this->getShop()->getAll()));
+
     }
 
     /**
@@ -142,17 +144,39 @@ class SimpleShopUI extends PluginBase{
     }
     /////////CATEGORY////////////////
     public function getCreateCategoryForm(): Form{
-        $form = new CustomForm(function(Player $player,array$data = null){
-
+        $form = new CustomForm(function(Player $player,array $data = null){
+            if($data === null){
+                if($this->getConfig()->get("quit-message-admin-onenabled",false)){
+                    $player->sendMessage($this->getConfig()->get("quit-admin-message",""));
+                }
+                return;
+            }
+            
         });
         //TODO trad
         $form->setTitle("Admin shop create category");
-        foreach ($this->getShop()->getAll() as $name => $data){
-            if ($data[""])
-        }
-
+        $form->addDropdown("mettre apres ",$this->getAllCategory($this->getShop()->getAll()));
+        $form->addInput("nom de la category");
+        $form->addToggle("ajouter une image");
+        $form->addToggle("si celui dessus est coucher l'image va etre un texture/url");
+        $form->addInput("texture/url complet (pour la texture: textures/items/apple)");
         return $form;
     }
+
+    public function getAllCategory(array $array){
+        $return = [];
+        foreach ($array as $name => $data){
+            if(($data["identifierofcategoryoritemsell"]??-1) === self::CATEGORY){
+                $return[$name] = $name;
+                unset($data["identifierofcategoryoritemsell"]);
+                foreach ($this->getAllCategory($data) as $returns){
+                    $return[$returns] = $returns;
+                }
+            }
+        }
+        return $return;
+    }
+
     public function getDeleteCategoryForm(): Form{}
     public function getEditCategoryForm(): Form{}
     ////////////ITEM//////////////////
