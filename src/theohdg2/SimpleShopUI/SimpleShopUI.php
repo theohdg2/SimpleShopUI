@@ -5,6 +5,7 @@ namespace theohdg2\SimpleShopUI;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\Form;
 use jojoe77777\FormAPI\SimpleForm;
+use pocketmine\item\enchantment\StringToEnchantmentParser;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;

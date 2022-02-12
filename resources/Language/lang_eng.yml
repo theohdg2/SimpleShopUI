@@ -1,4 +1,4 @@
-language: "en"
+language: "eng"
 confirm-buy: "You have bought {count} {item} for {sum}"
 confirm-sell: "You have sold {count} {item} for {sum}"
 error-buy: "You don't have enough money"
