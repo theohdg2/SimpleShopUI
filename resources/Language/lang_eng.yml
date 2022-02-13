@@ -5,13 +5,13 @@ error-buy: "You don't have enough money"
 error-sell: "You don't have enough items"
 error-world: "{world} is a world where you can't use the shop"
 survival: "You need to be in survival to access the shop"
-error-player: "Please use the in-game control".
+error-player: "Please use the in-game control"
 out-of-storage: "You have no more space in your inventory"
 error-container: "An unidentified container has been detected"
 error: "An error has occurred"
 error-item: "{item}:{meta} is not an item"
 # Form Message Player
-form-close: "I look forward to seeing you in the shop".
+form-close: "I look forward to seeing you in the shop"
 form-confirm-buy: "Are you sure you want to buy this item?"
 form-confirm-buy2: "Buy {item}"
 form-buy-label: "Buy {count} for {price}"
